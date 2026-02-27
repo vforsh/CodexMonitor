@@ -148,6 +148,7 @@ export function buildPrimaryNodes(options: LayoutNodesOptions): PrimaryLayoutNod
       onPrefillHandled={options.onPrefillHandled}
       insertText={options.insertText}
       onInsertHandled={options.onInsertHandled}
+      onSteerQueued={options.onSteerQueued}
       onEditQueued={options.onEditQueued}
       onDeleteQueued={options.onDeleteQueued}
       collaborationModes={options.collaborationModes}

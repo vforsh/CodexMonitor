@@ -156,6 +156,17 @@ export function useComposerController({
     [activeThreadId, removeQueuedMessage, setImagesForThread],
   );
 
+  const handleSteerQueued = useCallback(
+    (item: QueuedMessage) => {
+      if (!activeThreadId) {
+        return;
+      }
+      removeQueuedMessage(activeThreadId, item.id);
+      void handleSend(item.text, item.images ?? [], item.appMentions ?? [], "steer");
+    },
+    [activeThreadId, handleSend, removeQueuedMessage],
+  );
+
   const handleDeleteQueued = useCallback(
     (id: string) => {
       if (!activeThreadId) {
@@ -195,6 +206,7 @@ export function useComposerController({
     activeDraft,
     handleDraftChange,
     handleSendPrompt,
+    handleSteerQueued,
     handleEditQueued,
     handleDeleteQueued,
     clearDraftForThread,

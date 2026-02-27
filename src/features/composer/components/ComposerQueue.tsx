@@ -10,6 +10,7 @@ import { useMenuController } from "../../app/hooks/useMenuController";
 type ComposerQueueProps = {
   queuedMessages: QueuedMessage[];
   pausedReason?: string | null;
+  onSteerQueued?: (item: QueuedMessage) => void;
   onEditQueued?: (item: QueuedMessage) => void;
   onDeleteQueued?: (id: string) => void;
 };
@@ -17,6 +18,7 @@ type ComposerQueueProps = {
 export function ComposerQueue({
   queuedMessages,
   pausedReason = null,
+  onSteerQueued,
   onEditQueued,
   onDeleteQueued,
 }: ComposerQueueProps) {
@@ -46,6 +48,7 @@ export function ComposerQueue({
             </span>
             <QueueMenuButton
               item={item}
+              onSteerQueued={onSteerQueued}
               onEditQueued={onEditQueued}
               onDeleteQueued={onDeleteQueued}
             />
@@ -58,11 +61,17 @@ export function ComposerQueue({
 
 type QueueMenuButtonProps = {
   item: QueuedMessage;
+  onSteerQueued?: (item: QueuedMessage) => void;
   onEditQueued?: (item: QueuedMessage) => void;
   onDeleteQueued?: (id: string) => void;
 };
 
-function QueueMenuButton({ item, onEditQueued, onDeleteQueued }: QueueMenuButtonProps) {
+function QueueMenuButton({
+  item,
+  onSteerQueued,
+  onEditQueued,
+  onDeleteQueued,
+}: QueueMenuButtonProps) {
   const menu = useMenuController();
   const handleToggleMenu = useCallback(
     (event: ReactMouseEvent<HTMLButtonElement>) => {
@@ -72,6 +81,11 @@ function QueueMenuButton({ item, onEditQueued, onDeleteQueued }: QueueMenuButton
     },
     [menu],
   );
+
+  const handleSteer = useCallback(() => {
+    menu.close();
+    onSteerQueued?.(item);
+  }, [item, menu, onSteerQueued]);
 
   const handleEdit = useCallback(() => {
     menu.close();
@@ -97,6 +111,7 @@ function QueueMenuButton({ item, onEditQueued, onDeleteQueued }: QueueMenuButton
       </button>
       {menu.isOpen && (
         <PopoverSurface className="composer-queue-item-popover" role="menu">
+          <PopoverMenuItem onClick={handleSteer}>Steer</PopoverMenuItem>
           <PopoverMenuItem onClick={handleEdit}>Edit</PopoverMenuItem>
           <PopoverMenuItem onClick={handleDelete}>Delete</PopoverMenuItem>
         </PopoverSurface>

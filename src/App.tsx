@@ -1456,6 +1456,7 @@ function MainApp() {
     activeDraft,
     handleDraftChange,
     handleSendPrompt,
+    handleSteerQueued,
     handleEditQueued,
     handleDeleteQueued,
     clearDraftForThread,
@@ -2425,6 +2426,7 @@ function MainApp() {
       }
     },
     onEditQueued: handleEditQueued,
+    onSteerQueued: handleSteerQueued,
     onDeleteQueued: handleDeleteQueued,
     collaborationModes,
     selectedCollaborationModeId,

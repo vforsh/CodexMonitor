@@ -84,6 +84,7 @@ type ComposerProps = {
   contextUsage?: ThreadTokenUsage | null;
   queuedMessages?: QueuedMessage[];
   queuePausedReason?: string | null;
+  onSteerQueued?: (item: QueuedMessage) => void;
   onEditQueued?: (item: QueuedMessage) => void;
   onDeleteQueued?: (id: string) => void;
   sendLabel?: string;
@@ -193,6 +194,7 @@ export const Composer = memo(function Composer({
   contextUsage = null,
   queuedMessages = [],
   queuePausedReason = null,
+  onSteerQueued,
   onEditQueued,
   onDeleteQueued,
   sendLabel = "Send",
@@ -644,6 +646,7 @@ export const Composer = memo(function Composer({
       <ComposerQueue
         queuedMessages={queuedMessages}
         pausedReason={queuePausedReason}
+        onSteerQueued={onSteerQueued}
         onEditQueued={onEditQueued}
         onDeleteQueued={onDeleteQueued}
       />

@@ -435,6 +435,7 @@ export type LayoutNodesOptions = {
   onPrefillHandled: (id: string) => void;
   insertText: QueuedMessage | null;
   onInsertHandled: (id: string) => void;
+  onSteerQueued: (item: QueuedMessage) => void;
   onEditQueued: (item: QueuedMessage) => void;
   onDeleteQueued: (id: string) => void;
   collaborationModes: CollaborationModeOption[];

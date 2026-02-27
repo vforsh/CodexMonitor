@@ -19,10 +19,23 @@ describe("ComposerQueue", () => {
   it("opens inline menu on queue item action tap", () => {
     render(<ComposerQueue queuedMessages={[queuedItem]} />);
 
+    expect(screen.queryByText("Steer")).toBeNull();
     expect(screen.queryByText("Edit")).toBeNull();
     fireEvent.click(screen.getByLabelText("Queue item menu"));
+    expect(screen.getByText("Steer")).toBeTruthy();
     expect(screen.getByText("Edit")).toBeTruthy();
     expect(screen.getByText("Delete")).toBeTruthy();
+  });
+
+  it("calls steer callback for selected queued item", () => {
+    const onSteerQueued = vi.fn();
+    render(<ComposerQueue queuedMessages={[queuedItem]} onSteerQueued={onSteerQueued} />);
+
+    fireEvent.click(screen.getByLabelText("Queue item menu"));
+    fireEvent.click(screen.getByText("Steer"));
+
+    expect(onSteerQueued).toHaveBeenCalledTimes(1);
+    expect(onSteerQueued).toHaveBeenCalledWith(queuedItem);
   });
 
   it("calls edit callback for selected queued item", () => {
